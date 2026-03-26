@@ -3,15 +3,14 @@ from flask_cors import CORS
 from server import util
 import os
 
-app = Flask(__name__, static_folder='../')
+app = Flask(__name__)
 CORS(app)
 
+
 # Serve frontend
-
-
 @app.route('/')
 def home():
-    return send_file(os.path.joingit(os.getcwd(), 'client', 'app.html'))
+    return send_file(os.path.join(os.getcwd(), 'client', 'app.html'))
 
 
 @app.route('/get_location_names')
