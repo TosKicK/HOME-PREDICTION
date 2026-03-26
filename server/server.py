@@ -7,6 +7,8 @@ app = Flask(__name__, static_folder='../')
 CORS(app)
 
 # Serve frontend
+
+
 @app.route('/')
 def home():
     return send_file(os.path.join(os.getcwd(), 'app.html'))
@@ -29,7 +31,8 @@ def predict_home_price():
         bhk = int(data['bhk'])
         bath = int(data['bath'])
 
-        estimated_price = util.get_estimated_price(location, total_sqft, bhk, bath)
+        estimated_price = util.get_estimated_price(
+            location, total_sqft, bhk, bath)
 
         return jsonify({
             'estimated_price': estimated_price
