@@ -7,8 +7,6 @@ __data_columns = None
 __model = None
 
 
-
-
 def get_estimated_price(location, sqft, bhk, bath):
     try:
         loc_index = __data_columns.index(location)   # ❌ remove .lower()
@@ -27,6 +25,7 @@ def get_estimated_price(location, sqft, bhk, bath):
 
     return round(__model.predict([x])[0], 2)
 
+
 def get_location_names():
     return __locations
 
@@ -37,9 +36,6 @@ def load_saved_artifacts():
     global __data_columns
     global __locations
     global __model
-    
-    
-
 
     # Load columns.json
     with open("./artifacts/columns.json", "r") as f:
