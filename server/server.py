@@ -11,7 +11,7 @@ CORS(app)
 
 @app.route('/')
 def home():
-    return send_file(os.path.join(os.getcwd(), 'app.html'))
+    return send_file(os.path.joingit(os.getcwd(), 'client', 'app.html'))
 
 
 @app.route('/get_location_names')
