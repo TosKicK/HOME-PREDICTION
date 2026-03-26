@@ -1,5 +1,5 @@
 function getLocationNames() {
-    fetch("http://127.0.0.1:5000/get_location_names")
+    fetch("https://home-prediction.onrender.com/get_location_names")
     .then(response => response.json())
     .then(data => {
         const locations = data.locations;
@@ -20,15 +20,14 @@ function onClickedEstimatePrice() {
     let bath = document.getElementById("uiBathrooms").value;
     let location = document.getElementById("uiLocations").value;
 
-    // ✅ Show loading BEFORE fetch
-    document.getElementById("uiEstimatedPrice").innerHTML = "⏳ Estimating Price...";
+    document.getElementById("uiEstimatedPrice").innerHTML = "⏳ Estimating...";
 
-    fetch("http://127.0.0.1:5000/predict_home_price", {
+    fetch("https://home-prediction.onrender.com/predict_home_price", {
         method: "POST",
         headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
+            "Content-Type": "application/json"
         },
-        body: new URLSearchParams({
+        body: JSON.stringify({
             total_sqft: sqft,
             location: location,
             bhk: bhk,
@@ -41,7 +40,6 @@ function onClickedEstimatePrice() {
             "₹ " + data.estimated_price + " Lakhs";
     })
     .catch(error => {
-        console.error("Error:", error);
         document.getElementById("uiEstimatedPrice").innerHTML =
             "❌ Error predicting price";
     });
