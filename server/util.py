@@ -1,6 +1,7 @@
 import json
 import pickle
 import numpy as np
+import os
 
 __locations = None
 __data_columns = None
@@ -9,7 +10,7 @@ __model = None
 
 def get_estimated_price(location, sqft, bhk, bath):
     try:
-        loc_index = __data_columns.index(location)   # ❌ remove .lower()
+        loc_index = __data_columns.index(location)
     except:
         loc_index = -1
 
@@ -20,8 +21,6 @@ def get_estimated_price(location, sqft, bhk, bath):
 
     if loc_index >= 0:
         x[loc_index] = 1
-
-    return round(__model.predict([x])[0], 2)
 
     return round(__model.predict([x])[0], 2)
 
@@ -37,17 +36,24 @@ def load_saved_artifacts():
     global __locations
     global __model
 
-    # Load columns.json
-    with open("./artifacts/columns.json", "r") as f:
-        data = json.load(f)   # ✅ read only once
+    # ✅ Get correct path dynamically
+    base_path = os.path.dirname(__file__)
+
+    columns_path = os.path.join(base_path, "artifacts", "columns.json")
+    model_path = os.path.join(base_path, "artifacts", "banglore_home_prices_model.pickle")
+
+    # ✅ Load columns
+    with open(columns_path, "r") as f:
+        data = json.load(f)
         __data_columns = data["data_columns"]
         __locations = __data_columns[3:]
 
-    # Load trained model
-    with open("./artifacts/banglore_home_prices_model.pickle", "rb") as f:
+    # ✅ Load model
+    with open(model_path, "rb") as f:
         __model = pickle.load(f)
 
     print("loading saved artifacts...Done")
+    print("Sample locations:", __locations[:5])  # debug
 
 
 # Run directly

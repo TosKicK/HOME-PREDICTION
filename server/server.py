@@ -1,13 +1,20 @@
 from flask import Flask, request, jsonify, send_file
+from flask import send_from_directory
 from flask_cors import CORS
-from server import util
+import util
 import os
 
 app = Flask(__name__)
 CORS(app)
 
 
+@app.route('/client/<path:filename>')
+def serve_static(filename):
+    return send_from_directory('client', filename)
+
 # Serve frontend
+
+
 @app.route('/')
 def home():
     return send_file(os.path.join(os.getcwd(), 'client', 'app.html'))
